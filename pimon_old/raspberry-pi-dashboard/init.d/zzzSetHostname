@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#search for ptc-dashboard-x hostnames available if operating in master mode
+
+cat /dev/null > /etc/hostname
+
+if grep --quiet ptcdashboard /etc/hostname; then
+  echo "Hostname Already Set"
+  echo "Nothing to do"
+else
+  echo "Setting Hostname"
+
+x=1
+COUNTER=0
+         while [  $COUNTER -lt 100 ]; do
+if nslookup ptcdashboard$x | grep --quiet "can't find"; then
+  echo "Host Available"
+  echo "Setting Host To ptc-dashboard-$x"
+  echo ptcdashboard$x > /etc/hostname
+  #sh /etc/init.d/hostname.sh
+  #service networking restart
+  break
+else
+  echo "Host NOT Available"
+  echo "Trying next Host"
+  ((x++))
+fi
+done
+fi

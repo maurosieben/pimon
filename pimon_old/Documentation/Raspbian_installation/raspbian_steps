@@ -1,0 +1,48 @@
+ 1- Download the latest Raspbian 
+
+    wget -O raspbian_latest.zip http://downloads.raspberrypi.org/raspbian_latest
+
+ 2- Extract the image
+ 
+    unzip raspbian_latest.zip 
+
+ 3- Verify current devices mounted
+
+    df -h 
+
+ 4- Insert the SD card 
+
+ 5- Type df -h again and notice the device(s) were not on the list before. It will be listed as something 
+like "/dev/mmcblk0p*" or "/dev/sdd*" sometimes "/dev/sdb*" (where * is the partition number). As we want to 
+write on the whole card we need to umount this partition. If Raspbian (or any distro)
+had been written before the SD will also have other partitions. They need to be unmounted as well. 
+     (If your device is not mounted skip step 6)
+     You can run fdisk -l to find out the SD card name in case it is not mounted. 
+     
+ 6- Unmount the devices related to the SD card
+
+    umount /dev/sdb*  (where * is the partition number, and sdb can change)
+
+ 7- Write the image to the card
+
+    dd bs=4M if= image_name.img of= /dev/device_name (sdb in the example above)
+
+    PRECAUTIONS:
+    -> Make sure that the of= argument is the right device, otherwise you can lose important data.
+    -> The bs (block size) argument of 4M will usually work, if not try 1M, having in mind the process will
+ take longer. 
+    
+
+If you want to have a report of the writing process you can use:
+
+   sudo dd bs=4M if=2015-05-05-raspbian-wheezy.img | pv | sudo dd of=/dev/sdb
+
+   
+
+ 8- Run sync to ensure the write cache is flushed and you can unmount your SD card
+
+ 9- Remove your card, insert in the pi and have fun!  
+
+
+(Steps based on tutorial from elinux.org, http://elinux.org/RPi_Easy_SD_Card_Setup) 
+ 

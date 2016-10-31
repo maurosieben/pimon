@@ -1,0 +1,22 @@
+In order to install the dashboard files on Raspbian execute the following steps:
+
+1 - Download the project folder 
+
+git clone http://ssg-gerrit.ptcnet.ptc.com/pimon
+
+2 - Run the installer script
+
+sudo pimon/dashboard_installer/install
+ 
+If you want just test it you can add test-config.sh as an argument. 
+(sudo pimon/dashboard_installer/install test-config.sh)
+
+3 - Run the script to set up hostname: 
+
+sudo /etc/init.d/zzzSetHostname
+
+4 - Restart the pi 
+
+sudo shutdown -r now 
+
+

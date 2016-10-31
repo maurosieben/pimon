@@ -1,0 +1,25 @@
+#! /bin/bash 
+
+prog_dir=$(dirname $0)
+
+echo 'What is the new server hostname?'
+
+read hostname
+
+$prog_dir/disconnect-config.sh $hostname
+
+$prog_dir/sendIP-config.sh $hostname
+
+config_file=${1:-"$prog_dir/config.sh"}
+
+. $config_file
+
+mkdir -v $initd_dir
+mkdir -v $autostart_dir
+
+cp -vr $prog_dir/disconnect.sh $initd_dir
+
+su pi -c "cp -vr $prog_dir/sendIP.sh $autostart_dir"
+#cp -vr $prog_dir/sendIP.sh $autostart_dir
+
+echo "Server hostname updated to $hostname"

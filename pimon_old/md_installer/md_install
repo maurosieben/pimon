@@ -1,0 +1,46 @@
+#! /bin/bash 
+
+prog_dir=$(dirname $0)
+
+# Disable SELiunux (Requires system reboot)
+$prog_dir/disable-selinux
+
+# Disalble the firewall, so it doesn't block apache.
+systemctl stop firewalld
+systemctl disable firewalld
+
+# installing appache
+yum install httpd -y
+
+# starting the server 
+service httpd start
+
+# checking out service 
+systemctl status httpd.service
+
+# enabling Apache server to start automatically 
+systemctl enable httpd.service
+
+# installing php and its modules
+yum install php php-common php-cli php-devel php-gd php-imap php-intl php-mysql php-process php-xml php-xmlrpc php-zts -y
+
+# installing mariadb
+yum install mariadb-server mariadb -y
+
+# starting db 
+systemctl start mariadb.service
+
+# enabling Mariadb server to start automatically 
+systemctl enable mariadb.service
+
+# seeing mariadb status 
+systemctl status mariadb
+
+# mariadb root password configuration
+mysqladmin -u root password ptcdashboard
+
+$prog_dir/db_builder
+$prog_dir/install-www
+
+apachectl restart
+

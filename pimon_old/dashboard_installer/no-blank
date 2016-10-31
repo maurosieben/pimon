@@ -1,0 +1,15 @@
+#! /bin/bash
+
+# Uncomment this for debugging.
+#ECHO=echo
+
+prog_dir=$(dirname $0)
+data1=$prog_dir/../raspberry-pi-dashboard/kbd
+data2=$prog_dir/../raspberry-pi-dashboard/lightdm
+install_dir="$1"
+$ECHO mkdir -v -p $install_dir
+
+$ECHO cp -vr $data1 $install_dir
+$ECHO cp -vr $data2 $install_dir
+
+

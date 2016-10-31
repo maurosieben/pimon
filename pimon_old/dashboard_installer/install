@@ -1,0 +1,77 @@
+#! /bin/bash
+
+# Installation of updates to PTC_dashboard
+
+ECHO=echo
+
+echo "Installing"
+
+prog_dir=$(dirname $0)
+
+cd $prog_dir
+
+chmod -v 755 *
+
+cd -
+
+#adding www-data to root group  
+
+adduser www-data root
+
+# Create the /var/www folder and reassign ownership of the folder (and any files/subfolders)
+mkdir -v /var/www
+chown -R www-data:root /var/www
+
+# Adding permissions to all users to use the video device 
+adduser www-data video
+
+# Allowing www-data sudo usage 
+
+string_name="www-data ALL=(ALL) NOPASSWD: ALL"
+if grep -Fxq "$string_name" /etc/sudoers; then
+        echo "User www-data already has sudo privileges"
+else
+        echo "Giving user www-data sudo privileges"
+        su root -c "echo -e '\n$string_name' >> /etc/sudoers"
+fi
+
+
+# Update repository information
+apt-get update
+# Upgrading
+apt-get upgrade -y
+# Install Apache
+apt-get install apache2 -y
+
+rm -f /var/www/index.html
+
+# Installing php
+apt-get install php5 libapache2-mod-php5 -y
+
+# Installing chromiun 
+apt-get install chromium-browser -y
+
+
+# Installing dns utiills
+apt-get install dnsutils -y
+
+# Install ruby-dev and necessary gems
+apt-get install ruby-dev -y
+gem install faye
+
+# Install image viewer
+apt-get install fbi -y 
+
+config_file=${1:-"$prog_dir/config.sh"}
+. $config_file
+
+echo "Updanting autostart"
+su pi -c "$prog_dir/install-autostart $autostart_dir"
+echo "Updating init.d"
+$prog_dir/install-init-d  $initd_dir
+echo "Disabling Screen blanking"
+$prog_dir/no-blank  $initd_dir
+echo "Updanting vagrant"
+su pi -c "$prog_dir/install-vagrant $vagrant_dir"
+echo "Updanting www"
+su www-data -c "$prog_dir/install-wserver $www_dir"

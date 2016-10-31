@@ -1,0 +1,11 @@
+There are a few changes to make when you install Raspbian on the SD before you can install dashboard package. 
+
+The steps above are executed on Raspberry Pi Software Configuration Tool (raspi-config) which loads at the first time you boot the system and 
+is always reacheble by typing rasp-config on a terminal.
+
+
+1- Expand Filesystem (to make sure you are going to use the whole SD card).
+2- Change User password to "ptcdashboard"
+3- Enable Boot to desktop 
+4- Internationalisation options -> Change keyboard Layout to English US (optional)
+

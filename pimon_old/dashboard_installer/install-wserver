@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# Uncomment this for debugging.
+#ECHO=echo
+
+prog_dir=$(dirname $0)
+data=$prog_dir/../raspberry-pi-dashboard/www
+install_dir="$1"
+$ECHO mkdir -v -p $install_dir
+
+$ECHO cp -vpr $data $install_dir
+
+cd $install_dir/www/scripts
+
+for file in *.sh; do
+    chmod -v 755 $file    
+done
+  
+cd -
+
+

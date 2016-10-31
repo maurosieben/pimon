@@ -1,0 +1,5 @@
+[Desktop Entry] 
+
+Type=Application
+
+Exec=sh /home/pi/.config/autostart/readychrome.sh

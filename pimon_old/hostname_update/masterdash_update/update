@@ -1,0 +1,19 @@
+#! /bin/bash 
+
+prog_dir=$(dirname $0)
+
+echo 'What is the new server hostname?'
+
+read hostname
+
+$prog_dir/index-config.sh $hostname
+
+config_file=${1:-"$prog_dir/config.sh"}
+
+. $config_file
+
+mkdir -v $html_dir
+
+cp -vr $prog_dir/index.php $html_dir
+
+echo "Server hostname updated to $hostname"

@@ -1,0 +1,25 @@
+#! /bin/bash
+
+# Uncomment this for debugging.
+#ECHO=echo
+
+prog_dir=$(dirname $0)
+data=$prog_dir/../raspberry-pi-dashboard/init.d
+install_dir="$1"
+$ECHO mkdir -v -p $install_dir
+
+cd $data
+chmod -v 755 *    
+cd -
+
+$ECHO cp -vr $data $install_dir
+$ECHO cp -vr $data/splash.png $install_dir
+
+cd $install_dir 
+
+insserv -d disconnect.sh
+insserv -d asplashscreen
+update-rc.d zzzSetHostname defaults
+
+cd -
+

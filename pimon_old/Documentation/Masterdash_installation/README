@@ -1,0 +1,13 @@
+In order to install the masterdash files on CentOS 7 execute the following steps:
+
+1 - Download the project folder
+
+git clone http://ssg-gerrit.ptcnet.ptc.com/pimon
+
+2 - Run the installer script
+
+sudo pimon/md_installer/md_install
+
+4 - Restart the system
+
+sudo shutdown -r now

@@ -1,0 +1,19 @@
+#! /bin/bash
+
+# Uncomment this for debugging.
+#ECHO=echo
+
+prog_dir=$(dirname $0)
+data=$prog_dir/../raspberry-pi-dashboard/config/autostart
+install_dir="$1"
+$ECHO mkdir -v -p $install_dir
+
+cd $data
+
+chmod -v 755 *.sh    
+  
+cd -
+
+$ECHO cp -vpr $data $install_dir
+
+
